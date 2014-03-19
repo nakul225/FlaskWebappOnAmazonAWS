@@ -1,0 +1,43 @@
+{% extends "layout.html" %}
+{% block body %}
+  {% if session.logged_in %}
+    <form action="{{ url_for('add_entry') }}" method=post class=add-entry>
+      <dl>
+        <dt>Name of Song:
+        <dd><input type=text size=30 name=songName>
+        <dt>Name of Artist:
+		<dd><input type=text size=30 name=songArtist>
+        <dd><input type=submit value=Find>
+      </dl>
+    </form>
+	<form action="{{ url_for('find_songs_by_chord_progression') }}" method=post class=find-songs-by-chord-progression>
+      <dl>
+		<dt>Enter Chord Progression. Separate values by '-'. Example: C-Gm-F:
+		<dd><input type=text size=30 name=songChordProgression>
+        <dd><input type=submit value=Find>
+      </dl>
+    </form>
+  {% endif %}
+  <ul class=entries>
+	<TABLE BORDER="1" WIDTH=100%>
+		<TR>
+			<TD><h2>Song Name</h2></TD>
+			<TD><h2>Song Artist</h2></TD>
+			<TD><h2>Song Scale</h2></TD>
+			<TD><h2>Valence Score</h2></TD>
+			<TD><h2>Ultimate-Guitar.com link</h2></TD>		
+		</TR>
+  {% for entry in entries %}
+		<TR>
+			<TD>{{ entry[1] }}</TD>
+			<TD>{{ entry[2]|safe }}</TD>
+			<TD>{{ entry[3]|safe }}</TD>
+			<TD>{{ entry[4]|safe }}</TD>		
+			<TD><a href="{{entry[0]}}">Click here!</a></TD>
+		</TR>
+  {% else %}
+    <li><em>Sorry, No songs found</em>
+  {% endfor %}
+	</TABLE>
+  </ul>
+{% endblock %}
